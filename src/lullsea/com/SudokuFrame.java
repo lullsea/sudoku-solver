@@ -1,3 +1,5 @@
+package lullsea.com;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -23,7 +25,7 @@ public class SudokuFrame extends JFrame {
         setVisible(true);
     }
 
-    private JTextField[][] CreateSudokuTable(){
+    private void CreateSudokuTable(){
         for(int i = 0; i < 9; i++)
             for(int j = 0; j < 9; j++){
                 sudokuTable[j][i] = new JTextField("i: " + (j+i));
@@ -31,7 +33,6 @@ public class SudokuFrame extends JFrame {
                 // Add to grid
                 grid.add(sudokuTable[j][i]);
             }
-        return sudokuTable;
     }
     // Custom grid panel to house all our textfields
     private class Grid extends JPanel{
