@@ -23,6 +23,10 @@ public class Sudoku {
         }
     }
 
+    public Number getNumber(int x, int y){
+        return table[x][y]; 
+    }
+
     boolean checkSolved(Number num){
         if(num.answer != 0)
             return true;
@@ -91,7 +95,7 @@ public class Sudoku {
     class Number{
         int x;
         int y;
-        ArrayList<Integer> possibleValues; //make a shallow copy of the possible values at x,y
+        ArrayList<Integer> possibleValues = new ArrayList<Integer>(); 
         int answer;
 
         Number(int x, int y){

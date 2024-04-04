@@ -11,6 +11,7 @@ import java.awt.event.*;
 public class SudokuFrame extends JFrame {
     private Grid grid = new Grid(new GridLayout(9,9,1,2));
     JTextField sudokuTable[][] = new JTextField[9][9];
+    Sudoku sudoku = new Sudoku();
 
     SudokuFrame(){
         super("Sudoku Solver - lull");
@@ -23,6 +24,25 @@ public class SudokuFrame extends JFrame {
         setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    public void syncTable(){
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(!sudokuTable[j][i].getText().equals("")){
+					sudoku.getNumber(j,i).answer = Integer.parseInt(sudokuTable[j][i].getText());
+					sudokuTable[j][i].setForeground(Color.RED);
+
+                }
+				else {
+					sudoku.getNumber(j,i).answer = 0;
+					sudokuTable[j][i].setForeground(Color.BLACK);
+				}
+
+				if (sudoku.getNumber(j,i).isSolved())
+					sudokuTable[j][i].setText(String.valueOf(sudoku.getNumber(j,i).answer));			
+            }
+        }
     }
 
     private void CreateSudokuTable(){
