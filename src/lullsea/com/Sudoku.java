@@ -14,21 +14,39 @@ public class Sudoku {
                 table[i][j] = new Number(i, j);
     }
 
+    Sudoku(int[][] tab){
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                table[i][j] = new Number(i, j);
+                table[i][j].answer = tab[i][j];
+            }
+        }
+    }
+
     boolean checkSolved(Number num){
-        if(num.getAnswer() != 0)
+        if(num.answer != 0)
             return true;
         
         for (int i = 0; i < 9; i++){
             // Row
-            if (num.getAnswer() == table[i][num.y].getAnswer() && num.x != i)
+            if (num.answer == table[i][num.y].answer && num.x != i)
                 return false;
             // Column
-            if (num.getAnswer() == table[num.x][i].getAnswer() && num.y != i)
+            if (num.answer == table[num.x][i].answer && num.y != i)
                 return false;
         }
-        // TODO: check each quadrant
 
-        return false;
+        for(int y = num.y; y < num.y + 3; y++)
+            for(int x = num.x; x < num.x + 3; x++){
+                // No reason to check for the same position
+                if(num.x != x && num.y != y)
+                    if(num.answer == table[x][y].answer)
+                        return false;
+
+            }
+
+        // If it passes all of the checks returns true
+        return true;
     }
 
     /*
@@ -37,26 +55,61 @@ public class Sudoku {
     * 2. Calculate potential values of its position
     */
 
+    // Crude implementation
+    Tuple<Integer, Integer> incrementPosition(int x, int y){
+        if(x + 1 > 8){
+            y+=1;
+            x = 0;
+        }else x+=1;
+
+        return new Tuple<Integer,Integer>(x,y);
+    }
+
+    // Recursively go through and check every position
+    boolean solve(int x, int y){
+        Tuple<Integer, Integer> newPosition = incrementPosition(x, y);
+
+        if (table[x][y].isSolved())
+	    	return solve(newPosition.x, newPosition.y);
+	    
+	    for (int possibleValue : table[x][y].possibleValues) {
+	    	Number tmp = new Number(table[x][y]);
+            tmp.possibleValues = new ArrayList<Integer>();
+            tmp.possibleValues.add(possibleValue);
+		    if (checkSolved(tmp)) {
+		        table[x][y] = tmp; 
+		       	if (solve(newPosition.x, newPosition.y)) 
+		       		return true;
+		    }
+	    }
+        // Reset
+	    table[x][y].answer = 0;
+
+        return false;
+    }
+
     class Number{
         int x;
         int y;
-        ArrayList<Integer> posssibleValues; //make a shallow copy of the possible values at x,y
+        ArrayList<Integer> possibleValues; //make a shallow copy of the possible values at x,y
+        int answer;
 
         Number(int x, int y){
             this.x = x;
             this.y = y;
+            this.answer = 0;
             for(int i = 1; i <= 9; i++)
-                posssibleValues.add(i);
+                possibleValues.add(i);
         }
 
         Number(Number num){
             this.x = num.x;
             this.y = num.y;
+            this.answer = 0;
         }
-        int getAnswer(){
-            if(posssibleValues.size() != 1)
-                return 0;
-            else return posssibleValues.get(0);
+
+        boolean isSolved(){
+            return possibleValues.size() == 1;
         }
     }
 }
