@@ -71,8 +71,13 @@ public class Sudoku {
 
     // Recursively go through and check every position
     boolean solve(int x, int y){
+        if(x * y == 64)
+            return true;
+
         Tuple<Integer, Integer> newPosition = incrementPosition(x, y);
 
+        System.err.println("asd");
+        // System.err.println("" + x + " " + y);
         if (table[x][y].isSolved())
 	    	return solve(newPosition.x, newPosition.y);
 	    
@@ -109,11 +114,13 @@ public class Sudoku {
         Number(Number num){
             this.x = num.x;
             this.y = num.y;
+            for(int i = 1; i <= 9; i++)
+                possibleValues.add(i);
             this.answer = 0;
         }
 
         boolean isSolved(){
-            return possibleValues.size() == 1;
+            return answer != 0;
         }
     }
 }

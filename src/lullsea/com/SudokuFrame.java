@@ -9,7 +9,7 @@ import java.awt.event.*;
  */
 
 public class SudokuFrame extends JFrame {
-    private Grid grid = new Grid(new GridLayout(9,9,1,2));
+    private Grid grid = new Grid(new GridLayout(10,9,1,2));
     JTextField sudokuTable[][] = new JTextField[9][9];
     Sudoku sudoku = new Sudoku();
 
@@ -21,7 +21,8 @@ public class SudokuFrame extends JFrame {
         add(grid);
         // Frame attributes
         setLocation(0, 0);
-        setSize(500, 500);
+        setSize(800, 650);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
@@ -48,11 +49,35 @@ public class SudokuFrame extends JFrame {
     private void CreateSudokuTable(){
         for(int i = 0; i < 9; i++)
             for(int j = 0; j < 9; j++){
-                sudokuTable[j][i] = new JTextField("i: " + (j+i));
+                sudokuTable[j][i] = new JTextField();
                 // TODO: TextField Stylings here
+                sudokuTable[j][i].setHorizontalAlignment(JTextField.CENTER);
                 // Add to grid
                 grid.add(sudokuTable[j][i]);
             }
+        JButton randomBtn = new JButton("Random");
+        JButton solveBtn = new JButton("Solve");
+        JButton clearBtn = new JButton("Clear");
+
+        solveBtn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                syncTable();
+                if(!sudoku.solve(0, 0))
+                    JOptionPane.showMessageDialog(null, "This puzzle cannot be solved.");
+                else System.out.println("asdo");
+                syncTable();
+            }
+        });
+        grid.add(new JLabel(""));
+        grid.add(new JLabel(""));
+        grid.add(randomBtn);
+        grid.add(new JLabel(""));
+        grid.add(solveBtn);
+        grid.add(new JLabel(""));
+        grid.add(clearBtn);
+        grid.add(new JLabel(""));
+        grid.add(new JLabel(""));
     }
     // Custom grid panel to house all our textfields
     private class Grid extends JPanel{
@@ -65,10 +90,10 @@ public class SudokuFrame extends JFrame {
         //draw lines for 3x3 quardrants
         public void paintComponent(Graphics g){
             g.setColor(new Color(13380920));
-            g.fillRect(getWidth()/3 - 1,2,3,getHeight() - 4);
-            g.fillRect(2*getWidth()/3 - 1,2,3,getHeight() - 4);
-            g.fillRect(4,getHeight()/3 - 1,getWidth() - 9,4);
-            g.fillRect(4,2*getHeight()/3 - 1,getWidth() - 9,4);
+            g.fillRect(getWidth()/3 - 2,2,3,getHeight() - 65);
+            g.fillRect(2*getWidth()/3 - 2,2,3,getHeight() - 65);
+            g.fillRect(4,getHeight()/3 - 23,getWidth() - 9,4);
+            g.fillRect(4,2*getHeight()/3 - 43,getWidth() - 9,4);
         }
 	}
 }
