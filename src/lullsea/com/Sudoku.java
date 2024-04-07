@@ -28,7 +28,7 @@ public class Sudoku {
     }
 
     boolean checkSolved(Number num){
-        if(num.answer != 0)
+        if(!num.isSolved())
             return true;
         
         for (int i = 0; i < 9; i++){
@@ -43,7 +43,7 @@ public class Sudoku {
         for(int y = num.y; y < num.y + 3; y++)
             for(int x = num.x; x < num.x + 3; x++){
                 // No reason to check for the same position
-                if(num.x != x && num.y != y)
+                if(num.x != x && num.y != y && y < 9 && x < 9)
                     if(num.answer == table[x][y].answer)
                         return false;
 
@@ -71,20 +71,18 @@ public class Sudoku {
 
     // Recursively go through and check every position
     boolean solve(int x, int y){
-        if(x * y == 64)
+        if(x == 0 && y == 9)
             return true;
 
         Tuple<Integer, Integer> newPosition = incrementPosition(x, y);
 
-        System.err.println("asd");
-        // System.err.println("" + x + " " + y);
         if (table[x][y].isSolved())
 	    	return solve(newPosition.x, newPosition.y);
-	    
+
 	    for (int possibleValue : table[x][y].possibleValues) {
 	    	Number tmp = new Number(table[x][y]);
-            tmp.possibleValues = new ArrayList<Integer>();
-            tmp.possibleValues.add(possibleValue);
+            tmp.answer = possibleValue;
+
 		    if (checkSolved(tmp)) {
 		        table[x][y] = tmp; 
 		       	if (solve(newPosition.x, newPosition.y)) 

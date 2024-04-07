@@ -1,5 +1,4 @@
 package lullsea.com;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -28,22 +27,28 @@ public class SudokuFrame extends JFrame {
     }
 
     public void syncTable(){
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(!sudokuTable[j][i].getText().equals("")){
-					sudoku.getNumber(j,i).answer = Integer.parseInt(sudokuTable[j][i].getText());
-					sudokuTable[j][i].setForeground(Color.RED);
+        for(int y = 0; y < 9; y++){
+            for(int x = 0; x < 9; x++){
+                if(!sudokuTable[x][y].getText().equals("")){
+					sudoku.getNumber(x,y).answer = Integer.parseInt(sudokuTable[x][y].getText());
+					sudokuTable[x][y].setForeground(Color.RED);
 
                 }
 				else {
-					sudoku.getNumber(j,i).answer = 0;
-					sudokuTable[j][i].setForeground(Color.BLACK);
+					sudoku.getNumber(x,y).answer = 0;
+					sudokuTable[x][y].setForeground(Color.BLACK);
 				}
 
-				if (sudoku.getNumber(j,i).isSolved())
-					sudokuTable[j][i].setText(String.valueOf(sudoku.getNumber(j,i).answer));			
             }
         }
+    }
+    public void syncGUI(){
+        for(int i = 0; i < 9; i++)
+            for(int j = 0; j < 9; j++){
+                if (sudoku.getNumber(j,i).isSolved()){
+                    sudokuTable[j][i].setText(String.valueOf(sudoku.getNumber(j,i).answer));			
+                }
+            }
     }
 
     private void CreateSudokuTable(){
@@ -65,8 +70,7 @@ public class SudokuFrame extends JFrame {
                 syncTable();
                 if(!sudoku.solve(0, 0))
                     JOptionPane.showMessageDialog(null, "This puzzle cannot be solved.");
-                else System.out.println("asdo");
-                syncTable();
+                else syncGUI();
             }
         });
         grid.add(new JLabel(""));
