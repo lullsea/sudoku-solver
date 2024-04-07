@@ -40,10 +40,14 @@ public class Sudoku {
                 return false;
         }
 
-        for(int y = num.y; y < num.y + 3; y++)
-            for(int x = num.x; x < num.x + 3; x++){
+        // Wrap around 3x3
+        int sx = (int) (num.x/3)*3;
+        int sy = (int) (num.y/3)*3;
+
+        for(int y = sy; y < sy + 3; y++)
+            for(int x = sx; x < sx + 3; x++){
                 // No reason to check for the same position
-                if(num.x != x && num.y != y && y < 9 && x < 9)
+                if(num.x != x && num.y != y)
                     if(num.answer == table[x][y].answer)
                         return false;
 
