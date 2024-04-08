@@ -21,7 +21,7 @@ public class SudokuFrame extends JFrame {
         // Frame attributes
         setLocation(0, 0);
         setSize(800, 650);
-        setResizable(false);
+        // setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
@@ -51,6 +51,20 @@ public class SudokuFrame extends JFrame {
             }
     }
 
+    private void performSolve(){
+        syncTable();
+        if(!sudoku.solve(0, 0))
+            JOptionPane.showMessageDialog(null, "This puzzle cannot be solved.");
+        else syncGUI();
+    }
+
+    private void performClear(){
+        for(int i = 0; i < 9; i ++)
+            for(int j = 0; j < 9; j++)
+                sudokuTable[j][i].setText("");
+        syncTable();
+    }
+
     private void CreateSudokuTable(){
         for(int i = 0; i < 9; i++)
             for(int j = 0; j < 9; j++){
@@ -67,12 +81,22 @@ public class SudokuFrame extends JFrame {
         solveBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                syncTable();
-                if(!sudoku.solve(0, 0))
-                    JOptionPane.showMessageDialog(null, "This puzzle cannot be solved.");
-                else syncGUI();
+                performSolve();
             }
         });
+        clearBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                performClear();
+            }
+        });
+        randomBtn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                // TODO:
+            }
+        });
+
         grid.add(new JLabel(""));
         grid.add(new JLabel(""));
         grid.add(randomBtn);
