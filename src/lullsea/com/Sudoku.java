@@ -17,8 +17,8 @@ public class Sudoku {
     Sudoku(int[][] tab){
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
-                table[i][j] = new Number(i, j);
-                table[i][j].answer = tab[i][j];
+                table[j][i] = new Number(i, j);
+                table[j][i].answer = tab[i][j];
             }
         }
     }

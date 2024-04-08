@@ -2,6 +2,7 @@ package lullsea.com;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 /* 
  * The main GUI for our sudoku game
@@ -65,6 +66,49 @@ public class SudokuFrame extends JFrame {
         syncTable();
     }
 
+    private void performRandom(){
+        int[][][] arr = {
+            {
+                {0, 0, 6, 0, 5, 0, 9, 0, 0},
+                {1, 0, 0, 0, 6, 0, 0, 4, 2},
+                {7, 0, 0, 0, 8, 0, 2, 0, 7},
+                {0, 0, 0, 0, 0, 0, 0, 4, 0},
+                {0, 0, 8, 0, 0, 0, 2, 0, 0},
+                {0, 3, 0, 0, 6, 0, 0, 0, 0},
+                {9, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 5, 0, 7, 0},
+                {0, 0, 0, 1, 0, 0, 0, 2, 0}
+            },
+            {
+                {0, 8, 0, 4, 0, 0, 0, 0, 5},
+                {0, 0, 0, 0, 0, 0, 0, 6, 0},
+                {4, 0, 0, 0, 5, 0, 0, 0, 9},
+                {0, 0, 0, 0, 3, 0, 0, 0, 0},
+                {0, 2, 0, 0, 0, 0, 0, 8, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {8, 0, 0, 0, 0, 1, 0, 0, 0},
+                {0, 3, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 7, 0, 0, 0, 3, 0, 0}
+            },
+            {
+                {0, 3, 0, 0, 0, 0, 0, 0, 2},
+                {0, 0, 0, 0, 7, 0, 0, 0, 0},
+                {0, 0, 0, 5, 0, 0, 0, 0, 0},
+                {0, 7, 0, 0, 0, 0, 4, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 5, 0, 0, 0, 0, 6, 0},
+                {0, 0, 0, 0, 0, 9, 0, 0, 0},
+                {6, 0, 0, 0, 0, 0, 0, 0, 0},
+                {9, 0, 0, 0, 0, 0, 0, 1, 0}
+            }
+        };
+        Random rand = new Random();
+        int x = rand.nextInt(arr.length);
+
+        sudoku = new Sudoku(arr[x]);
+        syncGUI();
+    }
+
     private void CreateSudokuTable(){
         for(int i = 0; i < 9; i++)
             for(int j = 0; j < 9; j++){
@@ -93,9 +137,12 @@ public class SudokuFrame extends JFrame {
         randomBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                // TODO:
+                performClear();
+                performRandom();
+                syncTable();
             }
         });
+
 
         grid.add(new JLabel(""));
         grid.add(new JLabel(""));
