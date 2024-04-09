@@ -52,11 +52,32 @@ public class SudokuFrame extends JFrame {
             }
     }
 
+    private boolean checkInput(){
+        for(int i = 0; i < 9; i ++)
+            for(int j = 0; j < 9; j++){
+                String x = sudokuTable[j][i].getText();
+                if(!x.equals(""))
+                    try{
+                        int a = Integer.parseInt(x);
+                        if(a > 9 || a < 1){
+                            JOptionPane.showMessageDialog(null, "Input has to be between 1 - 9", "Warning", JOptionPane.WARNING_MESSAGE);
+                            return false;
+                        }
+                    }catch(Exception e){
+                        JOptionPane.showMessageDialog(null, "Input has to be a number.", "Warning", JOptionPane.WARNING_MESSAGE);
+                        return false;
+                    }
+            }
+        return true;
+    }
+
     private void performSolve(){
-        syncTable();
-        if(!sudoku.solve(0, 0))
-            JOptionPane.showMessageDialog(null, "This puzzle cannot be solved.");
-        else syncGUI();
+        if(checkInput()){
+            syncTable();
+            if(!sudoku.solve(0, 0))
+                JOptionPane.showMessageDialog(null, "This puzzle cannot be solved.");
+            else syncGUI();
+        }
     }
 
     private void performClear(){

@@ -1,6 +1,8 @@
 package lullsea.com;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 /*
  * Handles the logic for our sudoku game
  */
@@ -77,7 +79,6 @@ public class Sudoku {
     boolean solve(int x, int y){
         if(x == 0 && y == 9)
             return true;
-
         Tuple<Integer, Integer> newPosition = incrementPosition(x, y);
 
         if (table[x][y].isSolved())
@@ -95,7 +96,7 @@ public class Sudoku {
 	    }
         // Reset
 	    table[x][y].answer = 0;
-
+        
         return false;
     }
 
